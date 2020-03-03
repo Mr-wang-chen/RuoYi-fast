@@ -16,6 +16,16 @@ public class Bimenclosure extends BaseEntity {
     private Timestamp up_time;
     private String problem_type;
     private Long user_id;
+    private String user_name;
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
     public Long getId() {
         return id;
     }

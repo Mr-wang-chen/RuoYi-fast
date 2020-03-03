@@ -1,123 +1,100 @@
 <!DOCTYPE html>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--360浏览器优先以webkit内核解析-->
-    <title>若依介绍</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
-    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
-    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
-    <link href="../static/css/map/css/mapgrid.css" th:href="@{/css/map/css/mapgrid.css}" rel="stylesheet"/>
-    <style>
-        input {
-            width: 300px;
-            height: 40px;
-            margin: 10px;
-        }
-    </style>
+    <th:block th:include="include :: header('安置管理列表')" />
 </head>
-
 <body class="gray-bg">
-    <div class="row  border-bottom white-bg dashboard-header">
-        <div id="fileUploadContent" class="fileUploadContent"></div>
-        <div class="col-sm-12">
-			<form action="/Bimenclosure/insertBimenclosure" enctype="multipart/form-data" method="post">
-				<input id="img" type="file" name="file" accept="image/*" capture="camera" onchange="showPreview(this)" style="height: 130px; width: 460px; "><br/>
-                <input type="text" class="input1" id="input" name="xy_coordinates" readonly placeholder="高德坐标">
-                <input id = "h_coordinates" name="h_coordinates" placeholder="高度">
-				<input type="submit" value="提交" style="height: 48px; width: 90px; "><br/>
-				<div id="preview"></div><br/>
-			</form>
-        </div>
-        <div class="col-sm-3">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            角色名称：<input type="text" name="roleName"/>
+                        </li>
 
-        </div>
-        <div class="col-sm-5">
-            <h2>BIM+GIS开发平台</h2>
+                        <li class="select-time">
+                            <label>创建时间： </label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
         </div>
 
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="add()" >
+                <i class="fa fa-plus"></i> 新增
+            </a>
+            <!--<a class="btn btn-primary single disabled" onclick="edit()" >
+                <i class="fa fa-edit"></i> 修改
+            </a>-->
+        </div>
 
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
     </div>
-    <div class="wrapper wrapper-content">
-        <div class="row">
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var prefix = ctx + "Bimenclosure";
 
 
-        </div>
-    </div>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script th:src="@{/css/map/js/MapType.js}"></script>
-    <script th:src="@{/css/map/js/MapGrid.js}"></script>
-    <script type="text/javascript">
-	    $('#pay-qrcode').click(function(){
-	        var html=$(this).html();
-	        parent.layer.open({
-	            title: false,
-	            type: 1,
-	            closeBtn:false,
-	            shadeClose:true,
-	            area: ['600px', 'auto'],
-	            content: html
-	        });
-	    });
-
-		var fileList=document.getElementById("preview");
-		function showPreview(obj){
-			var files = obj.files,
-					img = new Image();
-			if(window.URL){
-				img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
-				img.width = 200;
-				img.onload = function(e) {
-					window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
-				}
-				fileList.appendChild(img);
-			}
-			else if(window.FileReader){
-				var reader = new FileReader();
-				reader.readAsDataURL(files[0]);
-				reader.onload = function(e){
-					// alert(files[0].name + "," +e.total/(1024*1024) + "MB");
-					img.src = this.result;
-					img.width = 200;
-					fileList.appendChild(img);
-
-				}
-			}
-			else{
-				//ie
-				obj.select();
-				obj.blur();
-				var nfile = document.selection.createRange().text;
-				document.selection.empty();
-            }
-            fileList.appendChild(img);
-        }
-        new MapGrid('.input1', {
-            type: gouldMap, //gouldMap || baiduMap
-            callback: function(lng, lat) {
-                console.log(lng, lat)
-            }
-
-        });
-
-        new MapGrid('.input', {
-            //地图类型 高端(gouldMap) 百度(baiduMap)
-            type: baiduMap, //gouldMap || baiduMap
-            callback: function(lng, lat) {
-                console.log(lng, lat)
-            }
-
-        });
-    </script>
-
-
-
-    </body>
-    </html>
-
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'y_coordinates',
+                    title: '经度值'
+                },
+                {
+                    field: 'x_coordinates',
+                    title: '纬度值',
+                    sortable: true
+                },
+                {
+                    field: 'h_coordinates',
+                    title: '高度',
+                    sortable: true
+                },
+                {
+                    field: 'pic_url',
+                    title: '图片',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return "<img src=" + value + " width = \"200\" height = \"180\"/>";
+                    }
+                },
+                {
+                    field: 'up_time',
+                    title: '更新时间',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+    function add(){
+        window.location.href = prefix+"/add";
+    }
+</script>
+</body>
+</html>
