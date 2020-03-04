@@ -96,27 +96,16 @@ public class BimenclosureController extends BaseController {
         JSONPObject json = new JSONPObject(jstr);
         return  json;*/
         List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
-        JSONPObject jsonobj = new JSONPObject(callback, bim.get(3));
+        JSONPObject jsonobj = new JSONPObject(callback, bim.get(bim.size()-1));
         return jsonobj;
 
     }
     @GetMapping(value = "/BimList")
     @ResponseBody
-    public void  QueryBimList(String callback, HttpServletResponse response){
+    public JSONPObject  QueryBimList(String callback, HttpServletResponse response){
         List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
-        JSONArray json = JSONArray.fromObject(bim);
-        try{
-            PrintWriter out = response.getWriter();
-            out.println(json);
-            String json_str = json.toString();
-            out.print(json_str);
-            out.flush();
-            out.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
+        JSONPObject jsonobj = new JSONPObject(callback, bim);
+        return jsonobj;
     }
     @PostMapping(value = "/list")
     @ResponseBody

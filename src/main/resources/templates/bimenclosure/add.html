@@ -8,6 +8,8 @@
     <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
     <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
     <link href="../static/css/map/css/mapgrid.css" th:href="@{/css/map/css/mapgrid.css}" rel="stylesheet"/>
+    <th:block th:include="include :: header('文件上传')" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
     <style>
         input {
             width: 300px;
@@ -17,27 +19,54 @@
     </style>
 </head>
 <body class="gray-bg">
-<div class="row  border-bottom white-bg dashboard-header">
-    <div id="fileUploadContent" class="fileUploadContent"></div>
-    <div class="col-sm-12">
-        <form action="/Bimenclosure/insertBimenclosure" enctype="multipart/form-data" method="post">
-            <input id="img" type="file" name="file" accept="image/*" capture="camera" onchange="showPreview(this)" style="height: 130px; width: 460px; "><br/>
-            <input type="text" class="input1" id="input" name="xy_coordinates" readonly placeholder="高德坐标">
-            <input id = "h_coordinates" name="h_coordinates" placeholder="高度">
-            <select name="problem_type" >
-                <option value="1">质量</option>
-                <option value="2">安全</option>
-            </select>
-            <input type="submit" value="提交" style="height: 48px; width: 90px; "><br/>
-            <div id="preview"></div><br/>
-        </form>
-    </div>
-    <div class="col-sm-3">
-
-    </div>
-    <div class="col-sm-5">
+<div class="row">
+    <div class="col-sm-10">
         <h2>BIM+GIS开发平台</h2>
     </div>
+    <div class="col-sm-10">
+            <div id="fileUploadContent" class="fileUploadContent">
+
+            </div>
+            <div class="ibox-content">
+                <form action="/Bimenclosure/insertBimenclosure" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label class="font-noraml">请选择图片</label>
+                        <div class="file-loading">
+                            <!--<input  type="file" multiple data-min-file-count="1" data-theme="fas">-->
+                            <input class="file" id="img" type="file" name="file" accept="image/*" capture="camera" onchange="showPreview(this)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">请输入坐标：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="input1" id="input" name="xy_coordinates" readonly placeholder="高德坐标">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">请输入高度：</label>
+                        <div class="col-sm-9">
+                            <input id = "h_coordinates" name="h_coordinates" placeholder="高度">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">请选择类型：</label>
+                        <div class="col-sm-6">
+                            <select  name="problem_type" class="form-control m-b" >
+                                <option value="1">质量</option>
+                                <option value="2">安全</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <input type="submit" value="提交" class="btn btn-primary btn-rounded btn-block"><br/>
+                    <div id="preview"></div><br/>
+                </form>
+            </div>
+    </div>
+
 
 
 </div>
@@ -53,6 +82,8 @@
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script th:src="@{/css/map/js/MapType.js}"></script>
 <script th:src="@{/css/map/js/MapGrid.js}"></script>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: bootstrap-fileinput-js" />
 <script type="text/javascript">
     $('#pay-qrcode').click(function(){
         var html=$(this).html();
