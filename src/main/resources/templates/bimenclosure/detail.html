@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('安置管理')" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m-t" id="signupForm">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">x坐标：</label>
+            <div class="form-control-static" th:text="${bimenclosure.x_coordinates}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">y坐标：</label>
+            <div class="form-control-static" th:text="${bimenclosure.y_coordinates}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">高度：</label>
+            <div class="form-control-static" th:text="${bimenclosure.h_coordinates}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">拍照时间：</label>
+            <div class="form-control-static" th:text="${bimenclosure.photo_time}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">图片：</label>
+            <div class="form-control-static" >
+                <img th:src="(${bimenclosure.pic_url})" width = \"200\" height = \"180\"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">更新时间：</label>
+            <div class="form-control-static" th:text="${bimenclosure.up_time}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">问题类型：</label>
+            <div class="form-control-static" th:text="${bimenclosure.problem_type == 1 ? '质量' : '安全'}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户姓名：</label>
+            <div class="form-control-static" th:text="${bimenclosure.user_name}">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

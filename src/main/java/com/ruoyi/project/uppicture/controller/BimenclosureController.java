@@ -14,6 +14,7 @@ import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -89,33 +90,43 @@ public class BimenclosureController extends BaseController {
      */
     @GetMapping(value = "/SelectList")
     @ResponseBody
-    public JSONPObject QueryBimenclosure(String callback){
+    public JSONPObject QueryBimenclosure(String callback,Bimenclosure bims){
        /* List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
         JSONObject jsono = JSONObject.fromObject(bim.get(3));
         String jstr = jsono.toString();
         JSONPObject json = new JSONPObject(jstr);
         return  json;*/
-        List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
+        List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList(bims);
         JSONPObject jsonobj = new JSONPObject(callback, bim.get(bim.size()-1));
         return jsonobj;
 
     }
     @GetMapping(value = "/BimList")
     @ResponseBody
-    public JSONPObject  QueryBimList(String callback, HttpServletResponse response){
-        List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
+    public JSONPObject  QueryBimList(String callback, HttpServletResponse response,Bimenclosure bims){
+        List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList(bims);
         JSONPObject jsonobj = new JSONPObject(callback, bim);
         return jsonobj;
     }
     @PostMapping(value = "/list")
     @ResponseBody
-    public TableDataInfo getAllBim(){
-            List<Bimenclosure> list =bimenclosureServiceImpl.SelectList();
+    public TableDataInfo getAllBim(Bimenclosure bim){
+            List<Bimenclosure> list =bimenclosureServiceImpl.SelectList(bim);
             return getDataTable(list);
     }
-    @GetMapping(value = "add")
+    @GetMapping(value = "/add/{id}")
     public String Add(){
         return "bimenclosure/add";
+    }
+
+    @GetMapping(value = "/detail/{id}")
+    public Object getDetail(@PathVariable(value ="id") Integer rowId){
+        ModelAndView modelAndView = new ModelAndView();
+        Bimenclosure bim = bimenclosureServiceImpl.getBimbyId(rowId);
+        modelAndView.addObject("bimenclosure", bim);
+
+        modelAndView.setViewName("bimenclosure/detail");
+        return modelAndView;
     }
 
 }

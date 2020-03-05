@@ -11,7 +11,7 @@ public class BimenclosureServiceImpl implements IBimenclosureService{
 
 
     @Autowired
-   private BimenclosureMapper bimenclosureMapper;
+    private BimenclosureMapper bimenclosureMapper;
 
     @Override
     public int insertBim(Bimenclosure bim) {
@@ -19,7 +19,12 @@ public class BimenclosureServiceImpl implements IBimenclosureService{
     }
 
     @Override
-    public List<Bimenclosure> SelectList() {
-        return bimenclosureMapper.SelectList();
+    public List<Bimenclosure> SelectList(Bimenclosure bim) {
+        return bimenclosureMapper.SelectList(bim);
+    }
+
+    @Override
+    public Bimenclosure getBimbyId(int rowId) {
+        return bimenclosureMapper.getBimbyId(rowId);
     }
 }
