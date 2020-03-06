@@ -5,8 +5,8 @@
 <mapper namespace="com.ruoyi.project.uppicture.mapper.BimenclosureMapper">
     <select id="SelectList" resultType="com.ruoyi.project.uppicture.domain.Bimenclosure" parameterType="com.ruoyi.project.uppicture.domain.Bimenclosure">
         select bim.id,bim.photo_time,bim.pic_url,bim.up_time,bim.problem_type,bim.content,
-            convert(x_coordinates/180*(PI()+0.00000),decimal(15,5)) as x_coordinates,
-            convert(y_coordinates/180*(PI()+0.00000),decimal(15,5)) as y_coordinates,
+              x_coordinates,
+              y_coordinates,
             bim.h_coordinates,uses.user_name
         from bim_enclosure bim  left join
             sys_user uses
