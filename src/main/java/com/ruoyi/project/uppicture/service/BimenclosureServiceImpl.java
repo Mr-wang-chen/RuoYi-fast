@@ -27,4 +27,9 @@ public class BimenclosureServiceImpl implements IBimenclosureService{
     public Bimenclosure getBimbyId(int rowId) {
         return bimenclosureMapper.getBimbyId(rowId);
     }
+
+    @Override
+    public Bimenclosure selectBim(Bimenclosure bim) {
+        return bimenclosureMapper.selectBim(bim);
+    }
 }

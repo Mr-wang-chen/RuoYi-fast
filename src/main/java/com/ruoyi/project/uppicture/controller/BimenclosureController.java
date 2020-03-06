@@ -38,6 +38,7 @@ public class BimenclosureController extends BaseController {
     @PostMapping(value = "/insertBimenclosure")
     public String insertBimenclosure(@RequestParam(value ="h_coordinates", required = true) Double h_coordinates ,
                                      @RequestParam(value ="xy_coordinates", required = true) String xy_coordinates ,
+                                     @RequestParam(value ="content", required = true) String content ,
                                      @RequestParam(value ="problem_type", required = true) String problem_type ,
                                      @RequestParam(value = "file", required = true) MultipartFile multipartFile){
         User currentUser = getSysUser();
@@ -67,6 +68,7 @@ public class BimenclosureController extends BaseController {
             bim.setH_coordinates(h_coordinates);
             bim.setUser_id(currentUser.getUserId());
             bim.setProblem_type(problem_type);
+            bim.setContent(content);
             if("".equals(bim.getX_coordinates())||bim.getX_coordinates()==null){
                 String []coordinates = xy_coordinates.split(",");
                 bim.setX_coordinates(Double.valueOf(coordinates[1].toString()));
@@ -92,13 +94,8 @@ public class BimenclosureController extends BaseController {
     @GetMapping(value = "/SelectList")
     @ResponseBody
     public JSONPObject QueryBimenclosure(String callback,Bimenclosure bims){
-       /* List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList();
-        JSONObject jsono = JSONObject.fromObject(bim.get(3));
-        String jstr = jsono.toString();
-        JSONPObject json = new JSONPObject(jstr);
-        return  json;*/
-        List<Bimenclosure> bim = bimenclosureServiceImpl.SelectList(bims);
-        JSONPObject jsonobj = new JSONPObject(callback, bim.get(bim.size()-1));
+        Bimenclosure bim = bimenclosureServiceImpl.selectBim(bims);
+        JSONPObject jsonobj = new JSONPObject(callback, bim);
         return jsonobj;
 
     }
@@ -125,7 +122,6 @@ public class BimenclosureController extends BaseController {
         ModelAndView modelAndView = new ModelAndView();
         Bimenclosure bim = bimenclosureServiceImpl.getBimbyId(rowId);
         modelAndView.addObject("bimenclosure", bim);
-
         modelAndView.setViewName("bimenclosure/detail");
         return modelAndView;
     }

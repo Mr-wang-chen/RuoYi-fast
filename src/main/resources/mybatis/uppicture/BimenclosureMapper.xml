@@ -4,12 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.uppicture.mapper.BimenclosureMapper">
     <select id="SelectList" resultType="com.ruoyi.project.uppicture.domain.Bimenclosure" parameterType="com.ruoyi.project.uppicture.domain.Bimenclosure">
-        select bim.*,uses.user_name from bim_enclosure bim  left join
+        select bim.id,bim.photo_time,bim.pic_url,bim.up_time,bim.problem_type,bim.content,
+            convert(x_coordinates/180*(PI()+0.00000),decimal(15,5)) as x_coordinates,
+            convert(y_coordinates/180*(PI()+0.00000),decimal(15,5)) as y_coordinates,
+            bim.h_coordinates,uses.user_name
+        from bim_enclosure bim  left join
             sys_user uses
         on bim.user_id = uses.user_id
-        where 1 = 1
         <if test="problem_type != null and problem_type != ''">
             AND bim.problem_type like concat('%', #{problem_type}, '%')
+        </if>
+    </select>
+    <select id ="selectBim" resultType="com.ruoyi.project.uppicture.domain.Bimenclosure" parameterType="com.ruoyi.project.uppicture.domain.Bimenclosure">
+        select user_name, problem_type, up_time, content,pic_url from bim_enclosure bim left join
+            sys_user uses
+            on bim.user_id = uses.user_id
+        where 1=1
+        <if test="x_coordinates != null and x_coordinates != ''">
+            AND bim.x_coordinates like concat('%', #{x_coordinates}, '%')
+        </if>
+        <if test="y_coordinates != null and y_coordinates != ''">
+            AND bim.y_coordinates like concat('%', #{y_coordinates}, '%')
+        </if>
+        <if test="h_coordinates != null and h_coordinates != ''">
+            AND bim.h_coordinates like concat('%', #{h_coordinates}, '%')
         </if>
     </select>
     <select id="getBimbyId" resultType="com.ruoyi.project.uppicture.domain.Bimenclosure">
@@ -26,6 +44,7 @@
         <if test="photo_time != null and photo_time != ''">photo_time,</if>
         <if test="problem_type != null and problem_type != ''">problem_type,</if>
         <if test="user_id != null and user_id != ''">user_id,</if>
+        <if test="content != null and content != ''">content,</if>
         up_time
         )values(
         <if test="x_coordinates != null and x_coordinates != ''">#{x_coordinates},</if>
@@ -35,6 +54,7 @@
         <if test="photo_time != null and photo_time != ''">#{photo_time},</if>
         <if test="problem_type != null and problem_type != ''">#{problem_type},</if>
         <if test="user_id != null and user_id != ''">#{user_id},</if>
+        <if test="content != null and content != ''">#{content},</if>
         sysdate()
         )
     </insert>
