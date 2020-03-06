@@ -26,6 +26,11 @@
                 </div>
             </form>
         </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="add()" >
+                <i class="fa fa-plus"></i> 新增
+            </a>
+        </div>
 
         <div class="col-sm-12 select-table table-striped">
             <table id="bootstrap-table"></table>
@@ -89,7 +94,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + '" href="javascript:void(0)" onclick="$.operate.add('+Number(row.id)+')"><i class="fa fa-plus"></i>新增</a> ');
+                        /*actions.push('<a class="btn btn-success btn-xs ' + '" href="javascript:void(0)" onclick="$.operate.add('+Number(row.id)+')"><i class="fa fa-plus"></i>新增</a> ');*/
                         actions.push('<a class="btn btn-warning btn-xs ' + '" href="javascript:void(0)" onclick="$.operate.detail('+Number(row.id)+')"><i class="fa fa-search"></i>详细</a>');
                         return actions.join('');
                     }
@@ -98,6 +103,9 @@
         $.table.init(options);
     });
 
+    function add(){
+        window.location.href = prefix+"/add?id=1";
+    }
 </script>
 </body>
 </html>

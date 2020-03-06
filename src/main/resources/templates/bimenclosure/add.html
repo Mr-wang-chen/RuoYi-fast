@@ -52,16 +52,24 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">请选择类型：</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="margin-left: 11px;">
                             <select  name="problem_type" class="form-control m-b" >
                                 <option value="1">质量</option>
                                 <option value="2">安全</option>
                             </select>
                         </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">安置内容：</label>
+                        <div class="col-sm-6" style="margin-left: 10px;">
+                            <textarea type="text" name="content" class="form-control" placeholder="请输入文本"></textarea>
+                        </div>
+                    </div>
+                    <div style="margin-button: 50px;">
+                        <input type="submit" value="提交" class="btn btn-primary btn-rounded btn-block"><br/>
                     </div>
 
-
-                    <input type="submit" value="提交" class="btn btn-primary btn-rounded btn-block"><br/>
                     <div id="preview"></div><br/>
                 </form>
             </div>
