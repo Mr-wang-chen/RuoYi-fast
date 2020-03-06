@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.web.controller.BaseController;
+import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.tool.picture.PictureHelp;
@@ -36,9 +37,9 @@ public class BimenclosureController extends BaseController {
      */
     @PostMapping(value = "/insertBimenclosure")
     public String insertBimenclosure(@RequestParam(value ="h_coordinates", required = true) Double h_coordinates ,
-                                  @RequestParam(value ="xy_coordinates", required = true) String xy_coordinates ,
+                                     @RequestParam(value ="xy_coordinates", required = true) String xy_coordinates ,
                                      @RequestParam(value ="problem_type", required = true) String problem_type ,
-                                  @RequestParam(value = "file", required = true) MultipartFile multipartFile){
+                                     @RequestParam(value = "file", required = true) MultipartFile multipartFile){
         User currentUser = getSysUser();
         int n;
         try{
@@ -48,13 +49,13 @@ public class BimenclosureController extends BaseController {
             try (
                     InputStream in  = multipartFile.getInputStream();
                     OutputStream os = new FileOutputStream(f)){
-                    byte[] buffer = new byte[4096];
-                    while ((n = in.read(buffer,0,4096)) != -1){
-                        os.write(buffer,0,n);
-                    }
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
-                    System.out.println(bufferedReader.readLine());
-                    bufferedReader.close();
+                byte[] buffer = new byte[4096];
+                while ((n = in.read(buffer,0,4096)) != -1){
+                    os.write(buffer,0,n);
+                }
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                System.out.println(bufferedReader.readLine());
+                bufferedReader.close();
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -114,7 +115,7 @@ public class BimenclosureController extends BaseController {
             List<Bimenclosure> list =bimenclosureServiceImpl.SelectList(bim);
             return getDataTable(list);
     }
-    @GetMapping(value = "/add/{id}")
+    @GetMapping(value = "/add")
     public String Add(){
         return "bimenclosure/add";
     }

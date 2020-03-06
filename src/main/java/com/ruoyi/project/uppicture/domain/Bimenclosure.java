@@ -17,6 +17,15 @@ public class Bimenclosure extends BaseEntity {
     private String problem_type;
     private Long user_id;
     private String user_name;
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getUser_name() {
         return user_name;
