@@ -20,6 +20,9 @@
             sys_user uses
             on bim.user_id = uses.user_id
         where 1=1
+        <if test="id != null and id != ''">
+            AND bim.id =#{id}
+        </if>
         <if test="x_coordinates != null and x_coordinates != ''">
             AND bim.x_coordinates like concat('%', #{x_coordinates}, '%')
         </if>
